@@ -7,8 +7,9 @@ export function validateContactEmail(value) {
   return { ok: true, email };
 }
 
-export function buildContactMailto(email) {
-  const subject = encodeURIComponent("Exyr early access");
-  const body = encodeURIComponent(`Please add ${email} to the Exyr early-access list.`);
+export function buildContactMailto(email, plan = "Free") {
+  const safePlan = plan === "Pro" ? "Pro" : "Free";
+  const subject = encodeURIComponent(`Exyr ${safePlan} early access`);
+  const body = encodeURIComponent(`Please add ${email} to the Exyr ${safePlan} early-access list.`);
   return `mailto:support@exyr.io?subject=${subject}&body=${body}`;
 }

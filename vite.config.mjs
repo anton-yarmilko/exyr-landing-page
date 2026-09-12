@@ -15,5 +15,14 @@ export default defineConfig({
       clientFiles: ["./src/main.jsx"],
     },
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: "dev-csp-for-vite-styles",
+      apply: "serve",
+      transformIndexHtml(html) {
+        return html.replace("style-src 'self';", "style-src 'self' 'unsafe-inline';");
+      },
+    },
+  ],
 });

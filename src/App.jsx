@@ -1,75 +1,44 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AppleLogo,
   ArrowRight,
+  Cloud,
   Check,
+  Database,
+  DesktopTower,
+  DeviceMobile,
   Fingerprint,
   GooglePlayLogo,
+  HardDrives,
   Key,
   List,
   Scan,
   ShieldCheck,
   Sparkle,
+  TerminalWindow,
+  WifiHigh,
   X,
 } from "@phosphor-icons/react";
-import {
-  siCloudflare,
-  siDigitalocean,
-  siDocker,
-  siDribbble,
-  siFramer,
-  siGithub,
-  siGitlab,
-  siGooglecloud,
-  siKubernetes,
-  siLinear,
-  siTrello,
-  siWebflow,
-} from "simple-icons";
 import { formatPrice, getPlanPrice } from "./lib/pricing.js";
 import { buildContactMailto, validateContactEmail } from "./lib/contact.js";
+import { productContent } from "./content.js";
 
 const integrations = [
-  { icon: siGithub, label: "GitHub", className: "orbit-one" },
-  { icon: siCloudflare, label: "Cloudflare", className: "orbit-two" },
-  { icon: siGitlab, label: "GitLab", className: "orbit-three" },
-  { icon: siDocker, label: "Docker", className: "orbit-four" },
-  { icon: siGooglecloud, label: "Google Cloud", className: "orbit-five" },
-  { icon: siKubernetes, label: "Kubernetes", className: "orbit-six" },
-  { icon: siDigitalocean, label: "DigitalOcean", className: "orbit-seven" },
+  { icon: DesktopTower, label: "Desktop device", className: "orbit-one" },
+  { icon: Cloud, label: "Cloud workspace", className: "orbit-two" },
+  { icon: TerminalWindow, label: "Development environment", className: "orbit-three" },
+  { icon: DeviceMobile, label: "Mobile device", className: "orbit-four" },
+  { icon: Database, label: "Private service", className: "orbit-five" },
+  { icon: HardDrives, label: "Home lab", className: "orbit-six" },
+  { icon: WifiHigh, label: "Private connection", className: "orbit-seven" },
 ];
 
-const clientLogos = [
-  [siLinear, "Linear"],
-  [siWebflow, "Webflow"],
-  [siTrello, "Trello"],
-  [siFramer, "Framer"],
-  [siDribbble, "Dribbble"],
-];
+const clientLabels = ["Developers", "IT teams", "Operators", "Studios", "Distributed teams"];
 
 const resources = [
-  {
-    icon: Key,
-    title: "Dui Felis Venenatis",
-    text: "Conubia nostra inceptos himenaeos orci varius natoque penatibus.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Sed Do Eiusmod",
-    text: "In voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-  },
-  {
-    icon: Fingerprint,
-    title: "Tempor Incididunt",
-    text: "Excepteur sint occaecat cupidatat non proident sunt in culpa.",
-  },
-];
-
-const featureBullets = [
-  "Purus est efficitur laoreet mauris pharetra vestibulum fusce.",
-  "Ante condimentum neque at luctus nibh finibus facilisis.",
-  "Vitae pellentesque sem placerat in id cursus mi.",
-  "Montes nascetur ridiculus mus donec rhoncus eros lobortis.",
+  { icon: Key },
+  { icon: ShieldCheck },
+  { icon: Fingerprint },
 ];
 
 function BrandMark({ compact = false }) {
@@ -81,26 +50,16 @@ function BrandMark({ compact = false }) {
   );
 }
 
-function SimpleIcon({ icon, label, size = 19 }) {
-  return (
-    <span className="simple-icon" role="img" aria-label={label}>
-      <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
-        <path d={icon.path} fill={`#${icon.hex}`} />
-      </svg>
-    </span>
-  );
-}
-
-function StoreBadge({ store }) {
+function StoreBadge({ store, onSelect }) {
   const isGoogle = store === "Google Play";
   return (
-    <a className="store-badge" href="#contact" aria-label={`Download on ${store}`}>
+    <button className="store-badge" type="button" onClick={() => onSelect(store)} aria-label={`Request Exyr early access for ${isGoogle ? "Android" : "macOS"}`}>
       {isGoogle ? <GooglePlayLogo weight="fill" /> : <AppleLogo weight="fill" />}
       <span>
-        <small>{isGoogle ? "Get it on" : "Download on the"}</small>
-        <strong>{store}</strong>
+        <small>Join the beta for</small>
+        <strong>{isGoogle ? "Android" : "macOS"}</strong>
       </span>
-    </a>
+    </button>
   );
 }
 
@@ -128,7 +87,11 @@ export function App() {
   const [annual, setAnnual] = useState(false);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [selectedPlan, setSelectedPlan] = useState("Free");
+  const [metricMode, setMetricMode] = useState("Devices");
   const [loaded, setLoaded] = useState(false);
+  const menuButtonRef = useRef(null);
+  const emailRef = useRef(null);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -156,6 +119,17 @@ export function App() {
     return () => document.body.classList.remove("menu-open");
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const closeOnEscape = (event) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      window.setTimeout(() => menuButtonRef.current?.focus(), 0);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
+
   const price = useMemo(() => getPlanPrice({ annual }), [annual]);
 
   function scrollTo(id) {
@@ -168,122 +142,149 @@ export function App() {
     const result = validateContactEmail(email);
     if (!result.ok) {
       setMessage(result.error);
+      emailRef.current?.focus();
       return;
     }
     setMessage("Opening your email app — review the message before sending.");
-    window.location.href = buildContactMailto(result.email);
+    window.location.href = buildContactMailto(result.email, selectedPlan);
+  }
+
+  function chooseAccess(option) {
+    setSelectedPlan(option === "Pro" ? "Pro" : "Free");
+    setMessage("");
+    if (window.location.hash !== "#contact") window.history.pushState(null, "", "#contact");
+    scrollTo("contact");
   }
 
   return (
     <>
       <AppLoader finished={loaded} />
+      <div className="site-frame" inert={!loaded} aria-hidden={!loaded}>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="site-header" data-testid="site-header">
         <div className="header-inner">
-          <button className="brand-button" onClick={() => scrollTo("top")} aria-label="Go to top"><BrandMark /></button>
+          <a className="brand-button" href="#top" aria-label="Go to top"><BrandMark /></a>
           <nav className="desktop-nav" aria-label="Primary navigation">
-            <button onClick={() => scrollTo("products")}>Products</button>
-            <button onClick={() => scrollTo("resources")}>Resources</button>
-            <button onClick={() => scrollTo("use-cases")}>Use Cases</button>
-            <button onClick={() => scrollTo("pricing")}>Pricing</button>
-            <button className="button button-dark button-small" onClick={() => scrollTo("contact")}>Contacts</button>
+            <a href="#products">Product</a>
+            <a href="#resources">Features</a>
+            <a href="#use-cases">Use Cases</a>
+            <a href="#pricing">Pricing</a>
+            <a className="button button-dark button-small" href="#contact">Join Beta</a>
           </nav>
-          <button className="menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen((value) => !value)}>
+          <button ref={menuButtonRef} className="menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen((value) => !value)}>
             {menuOpen ? <X /> : <List />}
           </button>
         </div>
-        <nav className={`mobile-nav ${menuOpen ? "is-open" : ""}`} aria-label="Mobile navigation">
-          {["products", "resources", "use-cases", "pricing", "contact"].map((item) => (
-            <button key={item} onClick={() => scrollTo(item)}>{item.replace("-", " ")}</button>
+        <nav id="mobile-navigation" className={`mobile-nav ${menuOpen ? "is-open" : ""}`} aria-label="Mobile navigation" aria-hidden={!menuOpen} inert={!menuOpen}>
+          {["products", "resources", "use-cases", "faq", "pricing", "contact"].map((item) => (
+            <a key={item} href={`#${item}`} onClick={() => setMenuOpen(false)}>{item.replace("-", " ")}</a>
           ))}
         </nav>
       </header>
 
-      <main id="top">
-        <section className="hero page-shell" aria-labelledby="hero-title">
-          <div className="store-row reveal"><StoreBadge store="Google Play" /><StoreBadge store="Mac App Store" /></div>
+      <main id="main-content">
+        <section id="top" className="hero page-shell" aria-labelledby="hero-title">
+          <div className="store-row reveal"><StoreBadge store="Google Play" onSelect={() => chooseAccess("Free")} /><StoreBadge store="Mac App Store" onSelect={() => chooseAccess("Free")} /></div>
           <div className="hero-panel reveal">
             <div className="hero-copy">
-              <span className="eyebrow">Lorem ipsum dolor sit amet</span>
-              <h1 id="hero-title">Excepteur Sint Occaecat<br />{" "}Cupidatat Non Proident Sunt In Culpa</h1>
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <span className="eyebrow">{productContent.hero.eyebrow}</span>
+              <h1 id="hero-title">Reach every device.<br />{" "}Keep every connection private.</h1>
+              <p>{productContent.hero.text}</p>
               <div className="button-row">
-                <button className="button button-dark" onClick={() => scrollTo("products")}>Get Started</button>
-                <button className="button button-light" onClick={() => scrollTo("contact")}>Get Exyr Free</button>
+                <button className="button button-dark" onClick={() => chooseAccess("Free")}>{productContent.hero.primary}</button>
+                <a className="button button-light" href="#products">{productContent.hero.secondary}</a>
               </div>
             </div>
-            <div className="orbit-stage" aria-label="Supported integrations">
-              {integrations.map(({ icon, label, className }) => (
-                <span className={`orbit-badge ${className}`} key={label} title={label}><SimpleIcon icon={icon} label={label} /></span>
+            <div className="orbit-stage" aria-label="Infrastructure ecosystem preview">
+              {integrations.map(({ icon: Icon, label, className }) => (
+                <span className={`orbit-badge ${className}`} key={label} title={label}><Icon size={19} weight="duotone" aria-hidden="true" /></span>
               ))}
             </div>
           </div>
           <div className="social-proof reveal">
-            <div className="stars" aria-label="Rated 4 out of 5">★ ★ ★ ★ ☆</div>
-            <p>In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam.</p>
-            <div className="client-row" aria-label="Teams using Exyr">
-              {clientLogos.map(([icon, label]) => <span key={label}><SimpleIcon icon={icon} label={label} />{label}</span>)}
+            <div className="trust-line"><ShieldCheck size={22} weight="duotone" /> Private by design</div>
+            <p>{productContent.trust.lead}</p>
+            <div className="client-row" aria-label={productContent.trust.ecosystem}>
+              {clientLabels.map((label) => <span key={label}>{label}</span>)}
             </div>
           </div>
         </section>
 
         <section id="products" className="product-section page-shell section-space">
-          <div className="product-visual reveal"><img src="/assets/exyr-phone-pair.png" alt="Exyr mobile app shown in light and dark modes" /></div>
+          <div className="product-visual reveal"><img src="/assets/exyr-phone-pair-original.png" alt="Illustrative Exyr mobile workspace shown in light and dark modes" width="760" height="380" /></div>
           <div className="product-bottom reveal">
-            <div><h2>Blandit Quis Suspendisse Aliquet Nisi Sodales</h2><p>Ligula congue sollicitudin erat viverra ac tincidunt nam, velit aliquam imperdiet mollis nullam volutpat porttitor ullamcorper.</p></div>
-            <div className="store-row"><StoreBadge store="Google Play" /><StoreBadge store="Mac App Store" /></div>
+            <div><h2>{productContent.product.title}</h2><p>{productContent.product.text}</p></div>
+            <div className="store-row"><StoreBadge store="Google Play" onSelect={() => chooseAccess("Free")} /><StoreBadge store="Mac App Store" onSelect={() => chooseAccess("Free")} /></div>
           </div>
         </section>
 
         <section id="resources" className="page-shell section-space">
-          <SectionIntro eyebrow="Feugiat tristique" title="Sem Placerat In Id Cursus Mi Pretium Tellus" text="Taciti sociosqu ad litora torquent per conubia nostra. Ridiculus mus donec rhoncus eros lobortis nulla molestie." />
+          <SectionIntro eyebrow={productContent.resources.eyebrow} title={productContent.resources.title} text={productContent.resources.text} />
           <div className="resource-grid">
-            {resources.map(({ icon: Icon, title, text }, index) => (
-              <article className={`resource-card reveal reveal-delay-${index}`} key={title}>
+            {resources.map(({ icon: Icon }, index) => {
+              const item = productContent.resources.cards[index];
+              return (
+              <article className={`resource-card reveal reveal-delay-${index}`} key={item.title}>
                 <div className="resource-art"><Icon size={34} weight="duotone" /></div>
-                <div className="resource-body"><h3>{title}</h3><p>{text}</p><button className="text-link" onClick={() => scrollTo("contact")}>Learn More <ArrowRight /></button></div>
+                <div className="resource-body"><h3>{item.title}</h3><p>{item.text}</p><a className="text-link" href="#use-cases" aria-label={`Explore ${item.title} use case`}>Explore use case <ArrowRight /></a></div>
               </article>
-            ))}
+              );
+            })}
           </div>
         </section>
 
-        <section className="page-shell section-space reveal">
+        <section id="network" className="page-shell section-space reveal">
           <div className="map-panel">
             <img src="/assets/exyr-network-map.png" alt="Abstract global connection map" />
             <div className="map-copy">
-              <span className="eyebrow">Finibus facilisis dapibus</span>
-              <h2>Primis Vulputate Ornare</h2>
-              <p>Fringilla lacus nec metus bibendum egestas iaculis massa. Taciti sociosqu ad litora torquent per conubia nostra.</p>
-              <div className="button-row"><button className="button button-dark" onClick={() => scrollTo("contact")}>Get exyr.io Free</button><button className="button button-light" onClick={() => scrollTo("resources")}>Learn More</button></div>
+              <span className="eyebrow">{productContent.network.eyebrow}</span>
+              <h2>{productContent.network.title}</h2>
+              <p>{productContent.network.text}</p>
+              <div className="button-row"><button className="button button-dark" onClick={() => chooseAccess("Free")}>Join the beta</button><a className="button button-light" href="#resources">See features</a></div>
             </div>
           </div>
         </section>
 
         <section id="use-cases" className="use-cases page-shell section-space">
-          <SectionIntro eyebrow="Viverra ac tincidunt nam" title="Nulla Molestie Mattis Scelerisque Maximus Eget Fermentum Odio" text="Senectus netus suscipit auctor curabitur facilisi cubilia curae. Quisque faucibus ex sapien vitae pellentesque sem placerat." />
+          <SectionIntro eyebrow={productContent.useCases.eyebrow} title={productContent.useCases.title} text={productContent.useCases.text} />
           <div className="dashboard reveal">
-            <article className="status-card server-card"><div className="card-heading"><span>United States</span><strong>28 ms</strong></div><small>New York</small><div className="card-heading muted-line"><span>Australia</span><strong>180 ms</strong></div><small>Sydney</small><h3>Tempus Leo Eu Aenean</h3><p>Ut hendrerit semper vel class aptent taciti sociosqu.</p></article>
-            <article className="status-card traffic-card"><div className="tabs"><span className="active">Traffic</span><span>Speed</span></div><div className="traffic-lines"><i /><i /><i /></div><h3>Ad Litora Torquent Per Conubia</h3><p>Pulvinar vivamus fringilla lacus nec metus.</p></article>
-            <article className="status-card connected-card"><span className="pulse"><Sparkle weight="fill" /></span><div><h3>Maximus Eget Fermentum Odio Phasellus</h3><p>Euismod quam justo lectus commodo.</p></div></article>
+            <article className="status-card server-card"><div className="card-heading"><span>Home desktop</span><strong>Ready</strong></div><small>Personal device</small><div className="card-heading muted-line"><span>Development server</span><strong>Available</strong></div><small>Cloud workspace</small><h3>{productContent.useCases.locationsTitle}</h3><p>{productContent.useCases.locationsText}</p></article>
+            <article className="status-card traffic-card"><div className="tabs" role="tablist" aria-label="Workspace preview"><button id="devices-tab" role="tab" aria-controls="workspace-metric-panel" aria-selected={metricMode === "Devices"} className={metricMode === "Devices" ? "active" : ""} type="button" onClick={() => setMetricMode("Devices")}>Devices</button><button id="sessions-tab" role="tab" aria-controls="workspace-metric-panel" aria-selected={metricMode === "Sessions"} className={metricMode === "Sessions" ? "active" : ""} type="button" onClick={() => setMetricMode("Sessions")}>Sessions</button></div><div id="workspace-metric-panel" role="tabpanel" aria-labelledby={metricMode === "Devices" ? "devices-tab" : "sessions-tab"}><div className={`traffic-lines ${metricMode.toLowerCase()}`} aria-hidden="true"><i /><i /><i /></div><h3>{productContent.useCases.trafficTitle}</h3><p>{metricMode === "Devices" ? productContent.useCases.trafficText : "Review active workspace sessions and close the ones you no longer need."}</p></div></article>
+            <article className="status-card connected-card"><span className="pulse"><Sparkle weight="fill" /></span><div><h3>{productContent.useCases.statusTitle}</h3><p>{productContent.useCases.statusText}</p></div></article>
           </div>
-          <div className="tag-marquee" aria-label="Use cases"><div>{[...Array(2)].flatMap(() => ["#ConnectorAutoplacing", "#SecureInfrastructure", "#NetworkPrivacy", "#GlobalRouting"]).map((tag, index) => <span key={`${tag}-${index}`}>{tag}</span>)}</div></div>
+          <div className="tag-marquee" aria-label="Use cases"><div>{[...Array(2)].flatMap(() => productContent.useCases.tags).map((tag, index) => <span key={`${tag}-${index}`}>{tag}</span>)}</div></div>
+        </section>
+
+        <section id="faq" className="faq page-shell section-space">
+          <SectionIntro eyebrow={productContent.faq.eyebrow} title={productContent.faq.title} />
+          <div className="faq-list reveal">
+            {productContent.faq.items.map((item) => <details key={item.question}><summary>{item.question}<span aria-hidden="true">+</span></summary><p>{item.answer}</p></details>)}
+          </div>
         </section>
 
         <section id="pricing" className="pricing page-shell section-space">
-          <SectionIntro eyebrow="Sunt in culpa" title="Labore Et Dolore Magna Aliqua" text="Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />
+          <SectionIntro eyebrow={productContent.pricing.eyebrow} title={productContent.pricing.title} text={productContent.pricing.text} />
           <label className="billing-toggle"><input type="checkbox" checked={annual} onChange={(event) => setAnnual(event.target.checked)} /><span className="toggle-ui" aria-hidden="true"><i /></span><span>{annual ? "Annual" : "Monthly"}</span></label>
+          <p className="billing-note">{annual ? "$12 per month, billed as $144 annually. Planned beta pricing." : "$15 billed monthly. Planned beta pricing."}</p>
           <div className="pricing-grid">
-            <article className="plan reveal"><span className="eyebrow">Begin</span><div className="plan-price"><strong>{formatPrice(0)}</strong><span>/Month</span></div><p>Purus est efficitur laoreet mauris pharetra vestibulum fusce.</p><ul>{featureBullets.slice(0, 3).map((item) => <li key={item}><Check />{item}</li>)}</ul><button className="button button-dark" onClick={() => scrollTo("contact")}>Get exyr.io Free</button></article>
-            <article className="plan plan-featured reveal"><span className="eyebrow">Pro</span><div className="plan-price"><strong>{formatPrice(price)}</strong><span>/Month</span></div><p>Purus est efficitur laoreet mauris pharetra vestibulum fusce.</p><ul>{featureBullets.map((item) => <li key={item}><Check />{item}</li>)}</ul><button className="button button-dark" onClick={() => scrollTo("contact")}>Get Started</button></article>
+            <article className="plan reveal"><span className="eyebrow">{productContent.pricing.free.name}</span><div className="plan-price"><strong>{formatPrice(0)}</strong><span>/month</span></div><p>{productContent.pricing.free.description}</p><ul>{productContent.pricing.free.bullets.map((item) => <li key={item}><Check />{item}</li>)}</ul><button className="button button-dark" onClick={() => chooseAccess("Free")}>Choose Free</button></article>
+            <article className="plan plan-featured reveal"><span className="eyebrow">{productContent.pricing.pro.name}</span><div className="plan-price"><strong>{formatPrice(price)}</strong><span>/month</span></div><p>{productContent.pricing.pro.description}</p><ul>{productContent.pricing.pro.bullets.map((item) => <li key={item}><Check />{item}</li>)}</ul><button className="button button-dark" onClick={() => chooseAccess("Pro")}>Choose Pro</button></article>
           </div>
         </section>
 
         <section id="contact" className="contact page-shell section-space">
           <div className="contact-rings" aria-hidden="true" />
-          <div className="contact-copy reveal"><span className="eyebrow">Arcu Dignissim Velit</span><h2>Suspendisse Aliquet Nisi Sodales Consequat Magna Ante Condimentum</h2><p>Nullam volutpat porttitor ullamcorper rutrum gravida cras.</p><form onSubmit={handleSubmit} noValidate><label htmlFor="contact-email">Work email</label><div className="email-row"><input id="contact-email" type="email" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} aria-describedby="contact-message" /><button className="button button-dark" type="submit">Get access <ArrowRight /></button></div><p id="contact-message" className="form-message" aria-live="polite">{message || "email: support@exyr.io"}</p></form></div>
+          <div className="contact-copy reveal"><span className="eyebrow">{productContent.contact.eyebrow}</span><h2>{productContent.contact.title}</h2><p>{productContent.contact.text}</p><form onSubmit={handleSubmit} noValidate><fieldset><legend>Plan</legend><label className={selectedPlan === "Free" ? "selected" : ""}><input type="radio" name="plan" value="Free" checked={selectedPlan === "Free"} onChange={() => setSelectedPlan("Free")} />Free</label><label className={selectedPlan === "Pro" ? "selected" : ""}><input type="radio" name="plan" value="Pro" checked={selectedPlan === "Pro"} onChange={() => setSelectedPlan("Pro")} />Pro</label></fieldset><label className="sr-only" htmlFor="contact-email">Work email</label><div className="email-row"><input ref={emailRef} id="contact-email" type="email" autoComplete="email" placeholder="you@company.com" value={email} onChange={(event) => { setEmail(event.target.value); if (message) setMessage(""); }} aria-describedby="contact-message" aria-invalid={message.startsWith("Enter")} /><button className="button button-dark" type="submit">Prepare request <ArrowRight /></button></div><p id="contact-message" className="form-message" aria-live="polite">{message || <>Your email app will open with a prepared request. <a href="mailto:support@exyr.io">Email support directly</a>.</>}</p></form></div>
+        </section>
+
+        <section className="legal page-shell" aria-label="Legal information">
+          <article id="privacy"><h3>{productContent.legal.privacyTitle}</h3><p>{productContent.legal.privacy}</p></article>
+          <article id="terms"><h3>{productContent.legal.termsTitle}</h3><p>{productContent.legal.terms}</p></article>
         </section>
       </main>
 
-      <footer className="site-footer page-shell"><BrandMark /><p>© {new Date().getFullYear()} exyr.io. All rights reserved.</p><nav aria-label="Footer navigation"><button onClick={() => scrollTo("products")}>Products</button><button onClick={() => scrollTo("pricing")}>Pricing</button><button onClick={() => scrollTo("contact")}>Contact</button></nav></footer>
+      <footer className="site-footer page-shell"><a className="brand-button" href="#top" aria-label="Go to top"><BrandMark /></a><p>© {new Date().getFullYear()} exyr.io. Early-access product concept.</p><nav aria-label="Footer navigation"><a href="#products">Product</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a></nav></footer>
+      </div>
     </>
   );
 }

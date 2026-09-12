@@ -23,7 +23,7 @@ test("serves existing static assets without a fallback", async () => {
   assert.doesNotMatch(response.headers.get("content-security-policy"), /unsafe-inline/);
 });
 
-test("falls back to index.html for an unknown app route", async () => {
+test("returns a real 404 for unknown HTML routes", async () => {
   const calls = [];
   const response = await worker.fetch(
     new Request("https://example.test/flow/step-two?source=share", {
@@ -42,8 +42,8 @@ test("falls back to index.html for an unknown app route", async () => {
     },
   );
 
-  assert.equal(response.status, 200);
-  assert.deepEqual(calls, ["/flow/step-two?source=share", "/index.html"]);
+  assert.equal(response.status, 404);
+  assert.deepEqual(calls, ["/flow/step-two?source=share"]);
 });
 
 test("does not turn missing API or write requests into the app shell", async () => {
