@@ -17,7 +17,9 @@ npm run build
 npm audit --omit=dev
 ```
 
-The build emits both a Vite client bundle and the Sites worker packaging files.
+The verification command runs ESLint, logic tests, the production build, Sites packaging checks, SPA fallback tests, and security-header assertions. The build emits both a Vite client bundle and the Sites worker packaging files.
+
+The source template intentionally contains placeholder marketing copy and store destinations. Replace those values before using this as the official Exyr product site. The contact CTA prepares an email draft to `support@exyr.io` and never claims a silent backend signup.
 
 ## Design source
 

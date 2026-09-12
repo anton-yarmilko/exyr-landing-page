@@ -11,7 +11,7 @@ Last updated: 2026-09-12 Europe/Kyiv
 
 ## Coordination
 
-- Hermes Agent CLI is available locally and is used only in bounded worktrees with checkpoints and no yolo/unsafe flags.
+- Hermes Agent CLI completed a bounded, read-only worktree review. Its favicon, share-card, CSP, static-analysis, copyright-year, and contact-funnel findings were addressed; source-owned placeholder copy and store destinations remain explicitly documented.
 - Claude CLI is installed but was not available for this run because local authentication was inactive; no Claude contribution is claimed.
 - Filesystem, git history, and this handoff remain the source of truth for later agent work.
 

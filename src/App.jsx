@@ -27,7 +27,7 @@ import {
   siWebflow,
 } from "simple-icons";
 import { formatPrice, getPlanPrice } from "./lib/pricing.js";
-import { validateContactEmail } from "./lib/contact.js";
+import { buildContactMailto, validateContactEmail } from "./lib/contact.js";
 
 const integrations = [
   { icon: siGithub, label: "GitHub", className: "orbit-one" },
@@ -166,7 +166,12 @@ export function App() {
   function handleSubmit(event) {
     event.preventDefault();
     const result = validateContactEmail(email);
-    setMessage(result.ok ? "Thanks — your early-access request is ready." : result.error);
+    if (!result.ok) {
+      setMessage(result.error);
+      return;
+    }
+    setMessage("Opening your email app — review the message before sending.");
+    window.location.href = buildContactMailto(result.email);
   }
 
   return (
@@ -233,7 +238,7 @@ export function App() {
           <SectionIntro eyebrow="Feugiat tristique" title="Sem Placerat In Id Cursus Mi Pretium Tellus" text="Taciti sociosqu ad litora torquent per conubia nostra. Ridiculus mus donec rhoncus eros lobortis nulla molestie." />
           <div className="resource-grid">
             {resources.map(({ icon: Icon, title, text }, index) => (
-              <article className="resource-card reveal" key={title} style={{ "--delay": `${index * 90}ms` }}>
+              <article className={`resource-card reveal reveal-delay-${index}`} key={title}>
                 <div className="resource-art"><Icon size={34} weight="duotone" /></div>
                 <div className="resource-body"><h3>{title}</h3><p>{text}</p><button className="text-link" onClick={() => scrollTo("contact")}>Learn More <ArrowRight /></button></div>
               </article>
@@ -278,7 +283,7 @@ export function App() {
         </section>
       </main>
 
-      <footer className="site-footer page-shell"><BrandMark /><p>© 2026 exyr.io. All rights reserved.</p><nav aria-label="Footer navigation"><button onClick={() => scrollTo("products")}>Products</button><button onClick={() => scrollTo("pricing")}>Pricing</button><button onClick={() => scrollTo("contact")}>Contact</button></nav></footer>
+      <footer className="site-footer page-shell"><BrandMark /><p>© {new Date().getFullYear()} exyr.io. All rights reserved.</p><nav aria-label="Footer navigation"><button onClick={() => scrollTo("products")}>Products</button><button onClick={() => scrollTo("pricing")}>Pricing</button><button onClick={() => scrollTo("contact")}>Contact</button></nav></footer>
     </>
   );
 }

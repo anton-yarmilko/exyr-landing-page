@@ -5,9 +5,9 @@
 - Source visual truth: `public/qa/figma-hero-reference.png`, cropped from the public author case study for the supplied Figma file.
 - Source URL: https://www.figma.com/design/S7qaUxxHZ21fEpzwPrlFYx/Exyr.io---Landing-Page--Template----App
 - Implementation: `http://127.0.0.1:4173/`
-- Desktop implementation screenshot: `qa/implementation-desktop-1280x780.png`
-- Mobile implementation screenshot: `qa/implementation-mobile-375x812.png`
-- Combined source/implementation evidence: `qa/source-implementation-comparison-1280x720.png`, rendered from `qa-compare.html`.
+- Desktop implementation screenshot: `qa/implementation-desktop-1280x780.jpg`
+- Mobile implementation screenshot: `qa/implementation-mobile-375x812.jpg`
+- Combined source/implementation evidence: `qa/source-implementation-comparison-1280x720.jpg`, rendered from `qa-compare.html`.
 - Desktop state: loaded landing-page hero after the intro animation; monthly pricing is the default.
 - Mobile state: loaded hero at 375 CSS px; mobile menu, pricing navigation, toggle, and contact-form states were tested separately.
 
@@ -42,7 +42,7 @@
 - Mobile menu opens, exposes all destinations, navigates to Pricing and closes.
 - Pricing toggle changes Pro from `$15` monthly to `$12` annual.
 - Empty contact form returns `Enter your work email.`
-- Valid local QA input returns the success state without making a network request.
+- Valid local QA input prepares a `mailto:` draft so the visitor can review it before sending; no silent signup is claimed.
 - Browser console checked after desktop, mobile, and form flows: 0 errors, 0 warnings.
 
 **Implementation Checklist**
