@@ -44,6 +44,7 @@
 - Empty contact form returns `Enter your work email.`
 - Valid local QA input prepares a `mailto:` draft so the visitor can review it before sending; no silent signup is claimed.
 - Browser console checked after desktop, mobile, and form flows: 0 errors, 0 warnings.
+- Public Sites deployment was opened in the in-app browser and rechecked after publication: hero and responsive navigation render correctly; live console has 0 errors and 0 warnings.
 
 **Implementation Checklist**
 
