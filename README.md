@@ -1,6 +1,6 @@
 # Exyr landing page
 
-Production-ready responsive implementation of the public Exyr landing-page concept, with original early-access product copy and an honest static conversion flow.
+Non-commercial portfolio implementation of the public Exyr landing-page concept, built as a production-ready responsive React/Vite website with original early-access copy and an honest static conversion flow.
 
 - Live production: https://exyr-landing-anton.rikishini.chatgpt.site/
 - Source: https://github.com/anton-yarmilko/exyr-landing-page
@@ -32,3 +32,7 @@ Sites currently serves this as a public static deployment. Because its CDN does 
 - [Original case study by the template author](https://dribbble.com/shots/26048233-exyr-io-Landing-Page-App-Template-Case-Study)
 
 The implementation uses original code plus locally generated raster assets, including the light/dark product-screen illustration. Confirm the source design's license before commercial redistribution of the overall visual composition.
+
+## Portfolio notice
+
+This is an independent, non-commercial design implementation created for learning and portfolio demonstration. It does not claim commercial affiliation with the original template author or represent Exyr as a released service.
