@@ -53,10 +53,10 @@ function BrandMark({ compact = false }) {
 function StoreBadge({ store, onSelect }) {
   const isGoogle = store === "Google Play";
   return (
-    <button className="store-badge" type="button" onClick={() => onSelect(store)} aria-label={`Request Exyr early access for ${isGoogle ? "Android" : "macOS"}`}>
+    <button className="store-badge" type="button" onClick={() => onSelect(store)} aria-label={`Discuss Exyr portfolio concept for ${isGoogle ? "Android" : "macOS"}`}>
       {isGoogle ? <GooglePlayLogo weight="fill" /> : <AppleLogo weight="fill" />}
       <span>
-        <small>Join the beta for</small>
+        <small>Concept preview for</small>
         <strong>{isGoogle ? "Android" : "macOS"}</strong>
       </span>
     </button>
@@ -169,7 +169,7 @@ export function App() {
             <a href="#resources">Features</a>
             <a href="#use-cases">Use Cases</a>
             <a href="#pricing">Pricing</a>
-            <a className="button button-dark button-small" href="#contact">Join Beta</a>
+            <a className="button button-dark button-small" href="#contact">Contact</a>
           </nav>
           <button ref={menuButtonRef} className="menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen((value) => !value)}>
             {menuOpen ? <X /> : <List />}
@@ -181,6 +181,7 @@ export function App() {
           ))}
         </nav>
       </header>
+      <p className="portfolio-notice page-shell">Independent non-commercial portfolio demo by Anton Yarmilko. Product features and prices are illustrative; no beta or remote-access service is offered.</p>
 
       <main id="main-content">
         <section id="top" className="hero page-shell" aria-labelledby="hero-title">
@@ -240,7 +241,7 @@ export function App() {
               <span className="eyebrow">{productContent.network.eyebrow}</span>
               <h2>{productContent.network.title}</h2>
               <p>{productContent.network.text}</p>
-              <div className="button-row"><button className="button button-dark" onClick={() => chooseAccess("Free")}>Join the beta</button><a className="button button-light" href="#resources">See features</a></div>
+              <div className="button-row"><button className="button button-dark" onClick={() => chooseAccess("Free")}>Discuss the concept</button><a className="button button-light" href="#resources">See features</a></div>
             </div>
           </div>
         </section>
@@ -265,7 +266,7 @@ export function App() {
         <section id="pricing" className="pricing page-shell section-space">
           <SectionIntro eyebrow={productContent.pricing.eyebrow} title={productContent.pricing.title} text={productContent.pricing.text} />
           <label className="billing-toggle"><input type="checkbox" checked={annual} onChange={(event) => setAnnual(event.target.checked)} /><span className="toggle-ui" aria-hidden="true"><i /></span><span>{annual ? "Annual" : "Monthly"}</span></label>
-          <p className="billing-note">{annual ? "$12 per month, billed as $144 annually. Planned beta pricing." : "$15 billed monthly. Planned beta pricing."}</p>
+          <p className="billing-note">{annual ? "$12 per month, billed as $144 annually. Illustrative demo pricing." : "$15 billed monthly. Illustrative demo pricing."}</p>
           <div className="pricing-grid">
             <article className="plan reveal"><span className="eyebrow">{productContent.pricing.free.name}</span><div className="plan-price"><strong>{formatPrice(0)}</strong><span>/month</span></div><p>{productContent.pricing.free.description}</p><ul>{productContent.pricing.free.bullets.map((item) => <li key={item}><Check />{item}</li>)}</ul><button className="button button-dark" onClick={() => chooseAccess("Free")}>Choose Free</button></article>
             <article className="plan plan-featured reveal"><span className="eyebrow">{productContent.pricing.pro.name}</span><div className="plan-price"><strong>{formatPrice(price)}</strong><span>/month</span></div><p>{productContent.pricing.pro.description}</p><ul>{productContent.pricing.pro.bullets.map((item) => <li key={item}><Check />{item}</li>)}</ul><button className="button button-dark" onClick={() => chooseAccess("Pro")}>Choose Pro</button></article>
@@ -274,7 +275,7 @@ export function App() {
 
         <section id="contact" className="contact page-shell section-space">
           <div className="contact-rings" aria-hidden="true" />
-          <div className="contact-copy reveal"><span className="eyebrow">{productContent.contact.eyebrow}</span><h2>{productContent.contact.title}</h2><p>{productContent.contact.text}</p><form onSubmit={handleSubmit} noValidate><fieldset><legend>Plan</legend><label className={selectedPlan === "Free" ? "selected" : ""}><input type="radio" name="plan" value="Free" checked={selectedPlan === "Free"} onChange={() => setSelectedPlan("Free")} />Free</label><label className={selectedPlan === "Pro" ? "selected" : ""}><input type="radio" name="plan" value="Pro" checked={selectedPlan === "Pro"} onChange={() => setSelectedPlan("Pro")} />Pro</label></fieldset><label className="sr-only" htmlFor="contact-email">Work email</label><div className="email-row"><input ref={emailRef} id="contact-email" type="email" autoComplete="email" placeholder="you@company.com" value={email} onChange={(event) => { setEmail(event.target.value); if (message) setMessage(""); }} aria-describedby="contact-message" aria-invalid={message.startsWith("Enter")} /><button className="button button-dark" type="submit">Prepare request <ArrowRight /></button></div><p id="contact-message" className="form-message" aria-live="polite">{message || <>Your email app will open with a prepared request. <a href="mailto:support@exyr.io">Email support directly</a>.</>}</p></form></div>
+          <div className="contact-copy reveal"><span className="eyebrow">{productContent.contact.eyebrow}</span><h2>{productContent.contact.title}</h2><p>{productContent.contact.text}</p><form onSubmit={handleSubmit} noValidate><fieldset><legend>Plan</legend><label className={selectedPlan === "Free" ? "selected" : ""}><input type="radio" name="plan" value="Free" checked={selectedPlan === "Free"} onChange={() => setSelectedPlan("Free")} />Free</label><label className={selectedPlan === "Pro" ? "selected" : ""}><input type="radio" name="plan" value="Pro" checked={selectedPlan === "Pro"} onChange={() => setSelectedPlan("Pro")} />Pro</label></fieldset><label className="sr-only" htmlFor="contact-email">Work email</label><div className="email-row"><input ref={emailRef} id="contact-email" type="email" autoComplete="email" placeholder="you@company.com" value={email} onChange={(event) => { setEmail(event.target.value); if (message) setMessage(""); }} aria-describedby="contact-message" aria-invalid={message.startsWith("Enter")} /><button className="button button-dark" type="submit">Prepare inquiry <ArrowRight /></button></div><p id="contact-message" className="form-message" aria-live="polite">{message || <>Your email app will open with a portfolio inquiry. <a href="mailto:taboopip@gmail.com">Email the maintainer</a>.</>}</p></form></div>
         </section>
 
         <section className="legal page-shell" aria-label="Legal information">
@@ -283,7 +284,7 @@ export function App() {
         </section>
       </main>
 
-      <footer className="site-footer page-shell"><a className="brand-button" href="#top" aria-label="Go to top"><BrandMark /></a><p>© {new Date().getFullYear()} exyr.io. Early-access product concept.</p><nav aria-label="Footer navigation"><a href="#products">Product</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a></nav></footer>
+      <footer className="site-footer page-shell"><a className="brand-button" href="#top" aria-label="Go to top"><BrandMark /></a><p>{new Date().getFullYear()} · Anton Yarmilko · Exyr portfolio concept.</p><nav aria-label="Footer navigation"><a href="#products">Product</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a></nav></footer>
       </div>
     </>
   );

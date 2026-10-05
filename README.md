@@ -22,7 +22,7 @@ npm audit --omit=dev
 
 The verification command runs ESLint, content/logic tests, the production build, Sites packaging checks, true-404 tests, and security-header assertions. The build emits both a Vite client bundle and the Sites worker packaging files.
 
-All template placeholder copy and misleading download/customer claims have been removed. Android and macOS actions are clearly labeled as beta requests, pricing is marked as planned, and the contact CTA prepares a plan-specific email draft to `support@exyr.io` without claiming a silent backend signup.
+The page visibly identifies this as Anton Yarmilko's independent, non-commercial portfolio concept. Platform labels and prices are illustrative, not a working remote-access service or subscriptions. The contact CTA prepares a plan-specific portfolio inquiry to `taboopip@gmail.com`; no beta registration, purchase or silent backend signup occurs.
 
 Sites currently serves this as a public static deployment. Because its CDN does not forward the Worker response headers for static assets, the document includes a strict CSP meta fallback; the Worker and `_headers` policy remain in the repository for hosts that support them.
 

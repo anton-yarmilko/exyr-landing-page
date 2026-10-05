@@ -2,7 +2,7 @@ export const productContent = {
   sections: ["top", "products", "resources", "network", "use-cases", "faq", "pricing", "contact", "privacy", "terms"],
   actions: [
     { label: "See how it works", target: "products" },
-    { label: "Join the beta", target: "contact" },
+    { label: "Discuss the concept", target: "contact" },
     { label: "Explore use cases", target: "use-cases" },
     { label: "Choose Free", target: "contact" },
     { label: "Choose Pro", target: "contact" },
@@ -10,8 +10,8 @@ export const productContent = {
   hero: {
     eyebrow: "Private access, without the network maze",
     title: "Reach every device. Keep every connection private.",
-    text: "Exyr gives small teams one calm place to connect to devices, services, and development environments — without exposing them to the public internet.",
-    primary: "Join the beta",
+    text: "This interface concept explores a workspace for private device connections. It demonstrates the design, not working connectivity or verified security capabilities.",
+    primary: "Discuss the concept",
     secondary: "See how it works",
   },
   trust: {
@@ -23,7 +23,7 @@ export const productContent = {
     text: "Approve a device once, see what is connected, and reach the services you need from desktop or mobile. Exyr keeps the setup understandable as your environment grows.",
   },
   resources: {
-    eyebrow: "Planned beta capabilities",
+    eyebrow: "Illustrative concept capabilities",
     title: "The essentials for a private, dependable workspace",
     text: "Give people the access they need, keep everything else closed, and understand connection health at a glance.",
     cards: [
@@ -50,9 +50,9 @@ export const productContent = {
     tags: ["Remote development", "Private dashboards", "Device support", "Home lab access"],
   },
   pricing: {
-    eyebrow: "Planned beta pricing",
+    eyebrow: "Illustrative demo pricing",
     title: "Straightforward plans for private access",
-    text: "Join the beta on Free, then move to Pro when your team needs more devices and shared access.",
+    text: "Switch between illustrative Free and Pro plans. These are design examples, not subscriptions available for purchase.",
     free: {
       name: "Free",
       description: "For personal projects and a small private setup.",
@@ -66,24 +66,24 @@ export const productContent = {
   },
   faq: {
     eyebrow: "Questions, answered",
-    title: "What to know before joining the beta",
+    title: "About this portfolio concept",
     items: [
-      { question: "What is Exyr?", answer: "Exyr is a private connectivity workspace for reaching approved devices and internal services from desktop or mobile." },
-      { question: "Do I need to open ports to the internet?", answer: "Exyr is designed to avoid exposing internal services through public ports. Exact technical details will be shared with beta participants before installation." },
-      { question: "Which platforms will the beta support?", answer: "The first beta is planned for macOS and Android, with additional platform support guided by participant feedback." },
-      { question: "Is the beta a finished commercial service?", answer: "Not yet. This page collects early-access requests while the product, documentation, and support process are being prepared." },
+      { question: "What is Exyr?", answer: "This is an independent, non-commercial interface implementation by Anton Yarmilko of a private-connectivity product concept. It does not provide remote access or claim affiliation with the original design author." },
+      { question: "Do I need to open ports to the internet?", answer: "No software or network configuration is provided by this demo. The connectivity descriptions illustrate a product concept, not verified security capabilities." },
+      { question: "Which platforms will the beta support?", answer: "Android and macOS labels are illustrative design elements. No native app or beta registration is available from this page." },
+      { question: "Is the beta a finished commercial service?", answer: "No. This is a portfolio demo, not an operating product, beta signup, or commercial service. The contact form prepares an inquiry to the portfolio maintainer." },
     ],
   },
   contact: {
-    eyebrow: "Early access",
-    title: "Help shape a calmer way to connect",
-    text: "Choose a plan, enter your work email, and we will prepare a request you can review before sending. No silent signup and no surprise subscription.",
-    helper: "Your email app will open with a prepared request to support@exyr.io.",
+    eyebrow: "Portfolio inquiry",
+    title: "Discuss this design implementation",
+    text: "Choose an illustrative plan and enter your email to prepare a portfolio inquiry. You review and send it in your own email app. No beta signup or purchase is created.",
+    helper: "Your email app will open with a prepared inquiry to taboopip@gmail.com.",
   },
   legal: {
     privacyTitle: "Privacy",
     privacy: "This preview does not store form data, set advertising cookies, or run third-party analytics. Submitting the form opens your own email app; you decide whether to send the message.",
-    termsTitle: "Beta terms",
-    terms: "Exyr is presented as an early-access product concept. Features, platform support, pricing, and availability may change before a commercial release.",
+    termsTitle: "Portfolio notice",
+    terms: "Independent, non-commercial portfolio implementation by Anton Yarmilko. Product capabilities, platform labels, and prices are illustrative, not an offer of service. No affiliation with the original design author or Exyr is claimed.",
   },
 };
