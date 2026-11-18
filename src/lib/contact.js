@@ -11,5 +11,5 @@ export function buildContactMailto(email, plan = "Free") {
   const safePlan = plan === "Pro" ? "Pro" : "Free";
   const subject = encodeURIComponent(`Exyr portfolio demo — ${safePlan}`);
   const body = encodeURIComponent(`Portfolio inquiry from ${email}. Selected demo plan: ${safePlan}. This is not a beta registration or purchase.`);
-  return `mailto:taboopip@gmail.com?subject=${subject}&body=${body}`;
+  return `mailto:hello@example.com?subject=${subject}&body=${body}`;
 }

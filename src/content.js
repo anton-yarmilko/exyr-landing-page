@@ -68,7 +68,7 @@ export const productContent = {
     eyebrow: "Questions, answered",
     title: "About this portfolio concept",
     items: [
-      { question: "What is Exyr?", answer: "This is an independent, non-commercial interface implementation by Anton Yarmilko of a private-connectivity product concept. It does not provide remote access or claim affiliation with the original design author." },
+      { question: "What is Exyr?", answer: "This is an independent, non-commercial interface implementation of a private-connectivity product concept. It does not provide remote access or claim affiliation with the original design author." },
       { question: "Do I need to open ports to the internet?", answer: "No software or network configuration is provided by this demo. The connectivity descriptions illustrate a product concept, not verified security capabilities." },
       { question: "Which platforms will the beta support?", answer: "Android and macOS labels are illustrative design elements. No native app or beta registration is available from this page." },
       { question: "Is the beta a finished commercial service?", answer: "No. This is a portfolio demo, not an operating product, beta signup, or commercial service. The contact form prepares an inquiry to the portfolio maintainer." },
@@ -78,12 +78,12 @@ export const productContent = {
     eyebrow: "Portfolio inquiry",
     title: "Discuss this design implementation",
     text: "Choose an illustrative plan and enter your email to prepare a portfolio inquiry. You review and send it in your own email app. No beta signup or purchase is created.",
-    helper: "Your email app will open with a prepared inquiry to taboopip@gmail.com.",
+    helper: "Your email app will open with a prepared inquiry to hello@example.com.",
   },
   legal: {
     privacyTitle: "Privacy",
     privacy: "This preview does not store form data, set advertising cookies, or run third-party analytics. Submitting the form opens your own email app; you decide whether to send the message.",
     termsTitle: "Portfolio notice",
-    terms: "Independent, non-commercial portfolio implementation by Anton Yarmilko. Product capabilities, platform labels, and prices are illustrative, not an offer of service. No affiliation with the original design author or Exyr is claimed.",
+    terms: "Independent, non-commercial portfolio implementation. Product capabilities, platform labels, and prices are illustrative, not an offer of service. No affiliation with the original design author or Exyr is claimed.",
   },
 };

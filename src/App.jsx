@@ -181,7 +181,7 @@ export function App() {
           ))}
         </nav>
       </header>
-      <p className="portfolio-notice page-shell">Independent non-commercial portfolio demo by Anton Yarmilko. Product features and prices are illustrative; no beta or remote-access service is offered.</p>
+      <p className="portfolio-notice page-shell">Independent non-commercial portfolio demo. Product features and prices are illustrative; no beta or remote-access service is offered.</p>
 
       <main id="main-content">
         <section id="top" className="hero page-shell" aria-labelledby="hero-title">
@@ -275,7 +275,7 @@ export function App() {
 
         <section id="contact" className="contact page-shell section-space">
           <div className="contact-rings" aria-hidden="true" />
-          <div className="contact-copy reveal"><span className="eyebrow">{productContent.contact.eyebrow}</span><h2>{productContent.contact.title}</h2><p>{productContent.contact.text}</p><form onSubmit={handleSubmit} noValidate><fieldset><legend>Plan</legend><label className={selectedPlan === "Free" ? "selected" : ""}><input type="radio" name="plan" value="Free" checked={selectedPlan === "Free"} onChange={() => setSelectedPlan("Free")} />Free</label><label className={selectedPlan === "Pro" ? "selected" : ""}><input type="radio" name="plan" value="Pro" checked={selectedPlan === "Pro"} onChange={() => setSelectedPlan("Pro")} />Pro</label></fieldset><label className="sr-only" htmlFor="contact-email">Work email</label><div className="email-row"><input ref={emailRef} id="contact-email" type="email" autoComplete="email" placeholder="you@company.com" value={email} onChange={(event) => { setEmail(event.target.value); if (message) setMessage(""); }} aria-describedby="contact-message" aria-invalid={message.startsWith("Enter")} /><button className="button button-dark" type="submit">Prepare inquiry <ArrowRight /></button></div><p id="contact-message" className="form-message" aria-live="polite">{message || <>Your email app will open with a portfolio inquiry. <a href="mailto:taboopip@gmail.com">Email the maintainer</a>.</>}</p></form></div>
+          <div className="contact-copy reveal"><span className="eyebrow">{productContent.contact.eyebrow}</span><h2>{productContent.contact.title}</h2><p>{productContent.contact.text}</p><form onSubmit={handleSubmit} noValidate><fieldset><legend>Plan</legend><label className={selectedPlan === "Free" ? "selected" : ""}><input type="radio" name="plan" value="Free" checked={selectedPlan === "Free"} onChange={() => setSelectedPlan("Free")} />Free</label><label className={selectedPlan === "Pro" ? "selected" : ""}><input type="radio" name="plan" value="Pro" checked={selectedPlan === "Pro"} onChange={() => setSelectedPlan("Pro")} />Pro</label></fieldset><label className="sr-only" htmlFor="contact-email">Work email</label><div className="email-row"><input ref={emailRef} id="contact-email" type="email" autoComplete="email" placeholder="you@company.com" value={email} onChange={(event) => { setEmail(event.target.value); if (message) setMessage(""); }} aria-describedby="contact-message" aria-invalid={message.startsWith("Enter")} /><button className="button button-dark" type="submit">Prepare inquiry <ArrowRight /></button></div><p id="contact-message" className="form-message" aria-live="polite">{message || <>Your email app will open with a portfolio inquiry. <a href="mailto:hello@example.com">Email the maintainer</a>.</>}</p></form></div>
         </section>
 
         <section className="legal page-shell" aria-label="Legal information">
@@ -284,7 +284,7 @@ export function App() {
         </section>
       </main>
 
-      <footer className="site-footer page-shell"><a className="brand-button" href="#top" aria-label="Go to top"><BrandMark /></a><p>{new Date().getFullYear()} · Anton Yarmilko · Exyr portfolio concept.</p><nav aria-label="Footer navigation"><a href="#products">Product</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a></nav></footer>
+      <footer className="site-footer page-shell"><a className="brand-button" href="#top" aria-label="Go to top"><BrandMark /></a><p>{new Date().getFullYear()} · Exyr portfolio concept.</p><nav aria-label="Footer navigation"><a href="#products">Product</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a></nav></footer>
       </div>
     </>
   );

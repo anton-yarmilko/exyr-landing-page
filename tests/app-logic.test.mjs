@@ -15,6 +15,6 @@ test("contact form validates and normalizes email", () => {
   assert.deepEqual(validateContactEmail("  anton@example.com "), { ok: true, email: "anton@example.com" });
   assert.equal(
     buildContactMailto("anton@example.com", "Pro"),
-    "mailto:taboopip@gmail.com?subject=Exyr%20portfolio%20demo%20%E2%80%94%20Pro&body=Portfolio%20inquiry%20from%20anton%40example.com.%20Selected%20demo%20plan%3A%20Pro.%20This%20is%20not%20a%20beta%20registration%20or%20purchase.",
+    "mailto:hello@example.com?subject=Exyr%20portfolio%20demo%20%E2%80%94%20Pro&body=Portfolio%20inquiry%20from%20anton%40example.com.%20Selected%20demo%20plan%3A%20Pro.%20This%20is%20not%20a%20beta%20registration%20or%20purchase.",
   );
 });
